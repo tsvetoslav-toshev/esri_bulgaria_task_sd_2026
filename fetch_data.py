@@ -12,7 +12,7 @@ Features:
 
 Usage:
     python fetch_data.py              # Run once
-    python fetch_data.py --schedule   # Run every hour
+    python fetch_data.py --schedule   # Run every minute
 """
 
 import requests
@@ -180,10 +180,10 @@ def main():
 
 if __name__ == "__main__":
     if "--schedule" in sys.argv:
-        # Scheduled mode - run every hour
-        logging.info("Starting scheduled mode - will run every 1 hour")
+        # Scheduled mode - run every minute
+        logging.info("Starting scheduled mode - will run every 1 minute")
         main()  # Run immediately
-        schedule.every(1).hour.do(main)
+        schedule.every(1).minute.do(main)
         
         while True:
             schedule.run_pending()

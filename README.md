@@ -5,6 +5,7 @@ A Python-based system that fetches county-level population data from the ArcGIS 
 ## Table of Contents
 
 - [Features](#features)
+- [Technology Choices & Rationale](#technology-choices--rationale)
 - [Architecture](#architecture)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -18,10 +19,57 @@ A Python-based system that fetches county-level population data from the ArcGIS 
 - **Data Aggregation**: Aggregates county-level data to state-level totals
 - **Database Storage**: Stores aggregated data in SQLite database
 - **REST API**: FastAPI-based API for querying state population data
-- **Scheduled Updates**: Optional hourly data refresh
+- **Scheduled Updates**: Optional periodic data refresh (configurable interval)
 - **Comprehensive Testing**: Unit tests for both API and data processing
 - **Type Hints**: Full type annotations for better code quality
 - **Logging**: Detailed logging for monitoring and debugging
+
+## Technology Choices & Rationale
+
+### Why Python?
+- **Rich ecosystem** - Excellent libraries for data processing and REST APIs
+- **Cross-platform** - Runs on Windows, Linux, and macOS without modifications
+- **Industry standard** - Widely used for data processing and web services
+
+### Why FastAPI?
+- **Automatic documentation** - Swagger UI (`/docs`) and ReDoc (`/redoc`) are auto-generated
+- **Type validation** - Built-in request/response validation using Python type hints
+- **High performance** - One of the fastest Python web frameworks
+- **Modern and simple** - Less complex than Django, more features than Flask
+- **Async-ready** - Supports asynchronous operations for better scalability
+
+### Why SQLite?
+- **Zero configuration** - No database server installation required
+- **Perfect for development** - Single file, easy to reset and test
+- **Standard SQL** - Easy migration path to production databases
+
+**Migration to PostgreSQL:** The application uses standard SQL syntax, making migration straightforward. For production environments with multiple concurrent users, PostgreSQL is recommended. Only the connection string needs to change.
+
+### Scheduling Strategy
+
+**Built-in scheduler (`--schedule` flag):**
+- Suitable for development and demonstration
+- Simple setup, everything in one process
+- Runs every hour by default
+
+**Recommended for production - External schedulers:**
+- **Linux:** cron jobs
+- **Windows:** Task Scheduler
+
+**Why external schedulers are better for production:**
+- **Resource efficient** - Script runs only when needed, not continuously
+- **More reliable** - If script crashes, scheduler will run it again next time
+- **OS-managed** - No dependency on a Python process staying alive
+
+**Example cron job (Linux)** - Daily at 2:00 AM:
+```bash
+0 2 * * * /usr/bin/python3 /path/to/fetch_data.py
+```
+
+**Scheduling frequency considerations:**
+- Census data updates annually
+- For real projects: daily or weekly is sufficient
+- Current hourly setting is for demonstration purposes
 
 ## Architecture
 
@@ -85,7 +133,7 @@ Run once to fetch data and populate the database:
 python fetch_data.py
 ```
 
-Run with automatic hourly updates:
+Run with automatic periodic updates (every minute):
 
 ```bash
 python fetch_data.py --schedule
@@ -272,9 +320,9 @@ logging.basicConfig(
 
 ### Schedule Configuration
 
-Edit [fetch_data.py](fetch_data.py#L139):
+Edit [fetch_data.py](fetch_data.py#L186):
 ```python
-schedule.every(1).hour.do(main)  # Change interval here
+schedule.every(1).minute.do(main)  # Change interval here (minute, hour, day, etc.)
 ```
 
 ## Troubleshooting
@@ -303,4 +351,6 @@ This project is created as a task assignment for Esri Bulgaria.
 
 ## Author
 
-Created for Esri Bulgaria Task - January 2026
+**Tsvetoslav Toshev**
+
+Created for Esri Bulgaria Internship Program - January 2026
