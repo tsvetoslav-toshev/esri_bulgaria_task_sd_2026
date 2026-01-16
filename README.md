@@ -2,7 +2,7 @@
 
 A Python-based system that fetches county-level population data from the ArcGIS USA Census Counties API, aggregates it by state, stores it in a SQLite database, and provides a REST API for querying the data.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Architecture](#architecture)
@@ -112,7 +112,7 @@ The API will be available at: **http://127.0.0.1:8000**
 - **Swagger UI**: http://127.0.0.1:8000/docs
 - **ReDoc**: http://127.0.0.1:8000/redoc
 
-## 🔌 API Documentation
+## API Documentation
 
 ### Endpoints
 
@@ -184,7 +184,7 @@ Invoke-RestMethod -Uri "http://127.0.0.1:8000/states"
 Invoke-RestMethod -Uri "http://127.0.0.1:8000/states/California"
 ```
 
-## 🧪 Testing
+## Testing
 
 Run all tests:
 
@@ -204,7 +204,7 @@ python -m pytest test_app.py::test_aggregate_by_state -v
 - ✅ Data aggregation logic
 - ✅ Null/None value handling
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 esri_bulgaria_task_sd_2026/
@@ -238,7 +238,7 @@ esri_bulgaria_task_sd_2026/
 **`requirements.txt`**
 - Lists all Python package dependencies
 
-## 🗄 Database Schema
+## Database Schema
 
 **Table: `state_population`**
 
@@ -247,7 +247,7 @@ esri_bulgaria_task_sd_2026/
 | state_name  | TEXT    | PRIMARY KEY    | Name of the state     |
 | population  | INTEGER |                | Total state population|
 
-## 🔧 Configuration
+## Configuration
 
 ### API Configuration
 
@@ -277,7 +277,7 @@ Edit [fetch_data.py](fetch_data.py#L139):
 schedule.every(1).hour.do(main)  # Change interval here
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Issue: "uvicorn is not recognized" or "pytest is not recognized"
 **Solution:** Use Python's module execution syntax:
@@ -297,10 +297,10 @@ python -m pytest test_app.py -v
 ### Issue: API returns empty list
 **Solution:** Run `fetch_data.py` first to populate the database.
 
-## 📝 License
+## License
 
 This project is created as a task assignment for Esri Bulgaria.
 
-## 👤 Author
+## Author
 
 Created for Esri Bulgaria Task - January 2026
